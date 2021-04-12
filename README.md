@@ -26,12 +26,12 @@ it's a simple reminder app made with React-Native and Expo.
 
 ## Features
 
--Notification Support
--Local Storage
--Dark theme and light theme
--Minimal design
--BirthDay Reminders
--and much more..
+- Notification Support
+- Local Storage
+- Dark theme and light theme
+- Minimal design
+- BirthDay Reminders
+- and much more..
 
 ## Testing
 
