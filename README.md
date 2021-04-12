@@ -22,7 +22,7 @@ it's a simple reminder app made with React-Native and Expo.
 
 ### Preview
 
-<img  src = "Images/Preview_Image_1.png"/><img src = "Images/Preview_Image_2.png"/><img src = "Images/Preview_Image_3.png"/><img src = "Images/Preview_Image_4.png"/>
+<img  src = "Images/Preview_Image_1.png" width="200"/><img src = "Images/Preview_Image_2.png" width="200"/><img src = "Images/Preview_Image_3.png" width="200"/><img src = "Images/Preview_Image_4.png" width="200"/>
 
 ## Features
 
@@ -35,9 +35,9 @@ it's a simple reminder app made with React-Native and Expo.
 
 ## Testing
 
--it has been Tested on Andriod 10.0
--it uses expo SDK 40
--if you find any bugs, please raise an issue
+- it has been Tested on Andriod 10.0
+- it uses expo SDK 40
+- if you find any bugs, please raise an issue
 
 ## License
 
