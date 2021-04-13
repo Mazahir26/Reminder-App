@@ -21,7 +21,9 @@ const Reminder_reducer = (state, action) => {
       storeData(data);
       return data;
     case "init_data":
-      return action.payload;
+      if (action.payload === null) {
+        return [];
+      } else return action.payload;
     case "delete_reminder":
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       data = state.filter((d) => d !== action.payload);

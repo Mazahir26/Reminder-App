@@ -22,7 +22,8 @@ it's a simple reminder app made with React-Native and Expo.
 
 ### Preview
 
-<img  src = "Images/Preview_Image_1.png" width="200"/><img src = "Images/Preview_Image_2.png" width="200"/><img src = "Images/Preview_Image_3.png" width="200"/><img src = "Images/Preview_Image_4.png" width="200"/>
+<img  src = "Images/Preview_Image_1.png" width="200"/><img src = "Images/Preview_Image_2.png" width="200"/>
+<img src = "Images/Preview_Image_3.png" width="200"/><img src = "Images/Preview_Image_4.png" width="200"/>
 
 ## Features
 
@@ -30,7 +31,7 @@ it's a simple reminder app made with React-Native and Expo.
 - Local Storage
 - Dark theme and light theme
 - Minimal design
-- BirthDay Reminders
+- Birthday Reminders
 - and much more..
 
 ## Testing
