@@ -9,8 +9,8 @@ import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import { Context as SettingsContext } from "../Context/SettingsContext";
 import { Context as ReminderContext } from "../Context/ReminderDataContext";
 import { Context as BirthdayContext } from "../Context/BirthdayDataContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import * as Permissions from "expo-permissions";
 import * as Notifications from "expo-notifications";
 const lighttheme = {
   ...DefaultTheme,
@@ -39,23 +39,6 @@ const darktheme = {
   },
 };
 
-const askPermissions = async () => {
-  const { status: existingStatus } = await Permissions.getAsync(
-    Permissions.NOTIFICATIONS
-  );
-  let finalStatus = existingStatus;
-  if (existingStatus !== "granted") {
-    console.log("hey maam");
-    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-    finalStatus = status;
-  }
-  if (finalStatus !== "granted") {
-    console.log("hey sup");
-    return false;
-  }
-  return true;
-};
-
 const Tab = createBottomTabNavigator();
 
 function main() {
@@ -73,11 +56,22 @@ function main() {
             response.notification.request.content.categoryIdentifier ==
             "reminder"
           ) {
-            snooze({
-              text: response.notification.request.content.body,
-              val: response.notification.request.identifier,
-              snoozetime: state.snoozetime,
-            });
+            try {
+              let jsonValue = await AsyncStorage.getItem("Settings-Data");
+              jsonValue = jsonValue != null ? JSON.parse(jsonValue) : null;
+              snooze({
+                text: response.notification.request.content.body,
+                val: response.notification.request.identifier,
+                snoozetime: jsonValue != null ? jsonValue.snoozetime : 30,
+              });
+            } catch (e) {
+              console.log(e);
+              snooze({
+                text: response.notification.request.content.body,
+                val: response.notification.request.identifier,
+                snoozetime: 30,
+              });
+            }
           }
         }
         await Notifications.dismissNotificationAsync(

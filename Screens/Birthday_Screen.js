@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useTheme } from "react-native-paper";
-import moment from "moment";
 import { AntDesign } from "@expo/vector-icons";
 import Element from "../Components/Birthday/birthday_swipable";
 import Model from "../Components/Birthday/birthdaymodel";
@@ -43,18 +42,6 @@ function My_List() {
     });
   }, []);
 
-  // const [state, setState] = useState({
-  //   data: [
-  //     {
-  //       text: `Kesavan`,
-  //       key: `key-0012`,
-  //       height: 75,
-  //       Date: moment(1598051730000),
-  //     },
-  //   ],
-  // });
-  // const item = useRef(new Map());
-
   let itemRefs = new Map();
 
   const chnage_model = (item) => {
@@ -80,34 +67,6 @@ function My_List() {
     setselecteditem(null);
   };
 
-  const change_text = ({ text }) => {
-    const updatedData = state.data.filter((d) => {
-      if (d == selecteditem) {
-        let tep = selecteditem;
-        tep.text = text;
-        return tep;
-      } else return d;
-    });
-    setState({ data: updatedData });
-  };
-
-  const change_time = ({ time }) => {
-    const updatedData = state.data.filter((d) => {
-      if (d == selecteditem) {
-        let tep = selecteditem;
-        tep.Date = time;
-        return tep;
-      } else return d;
-    });
-    setState({ data: updatedData });
-  };
-
-  const deleteItem = (item) => {
-    const updatedData = state.data.filter((d) => d !== item);
-    // Animate list to close gap when item is deleted
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setState({ data: updatedData });
-  };
   function emptylist() {
     return (
       <View
@@ -181,16 +140,10 @@ function My_List() {
           />
         )}
         ListFooterComponent={footer}
-        // onDragEnd={({ data }) => this.setState({ data })}
-        // activationDistance={10}
       />
     </View>
   );
 }
-
-/*
-
-          */
 
 export default My_List;
 

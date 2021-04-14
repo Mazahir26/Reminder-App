@@ -27,6 +27,7 @@ const settings_reducer = (state, action) => {
         ...state,
         snoozetime: tep,
       };
+      storeData(data1);
       return data1;
   }
 };

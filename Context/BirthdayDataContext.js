@@ -46,15 +46,7 @@ const Birthday_reducer = (state, action) => {
   }
 };
 
-const Cancle_all_notif = async () => {
-  await Notifications.cancelAllScheduledNotificationsAsync();
-  // console.log("cncled all " + lol);
-};
-
 const add_birthday = (dispatch) => {
-  // Cancle_all_notif();
-  // all_notif();
-
   return () => {
     let tep = new Date(Date.now());
     let time = new Date(Date.now());
@@ -151,12 +143,6 @@ const notif = async (text, time) => {
     action
   );
   return lol;
-};
-
-const all_notif = async () => {
-  let lol = await Notifications.getAllScheduledNotificationsAsync();
-  console.log("-----ALL NOTIFICATIONS----");
-  console.log(lol);
 };
 
 const Cancle_Notif = async (id) => {

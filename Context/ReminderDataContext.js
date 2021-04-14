@@ -1,6 +1,5 @@
 import createDataContext from "./createDataContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import moment from "moment";
 import { LayoutAnimation } from "react-native";
 import * as Notifications from "expo-notifications";
 
@@ -58,14 +57,10 @@ const Reminder_reducer = (state, action) => {
 };
 
 const add_reminder = (dispatch) => {
-  // Cancle_all_notif();
-  // all_notif();
-
   return () => {
     let time = new Date(Date.now() + 60 * 60 * 1000);
     let tep = new Date(Date.now());
     time.setSeconds(0, 0);
-    tep.setSeconds(0, 0);
     let id = notif("Tap to edit", time.getTime() / 1000 - tep.getTime() / 1000);
     id.then((value) => {
       dispatch({ type: "add_reminder", payload: { time, value } });
@@ -97,8 +92,8 @@ const snooze = (dispatch) => {
     let tep = new Date(Date.now());
     let temp = new Date(Date.now() + 60 * 1000 * snoozetime);
     temp.setSeconds(0, 0);
-    tep.setSeconds(0, 0);
     Cancle_Notif(val);
+    // console.log(snoozetime);
     let id = notif(text, temp.getTime() / 1000 - tep.getTime() / 1000);
     id.then((value) => {
       dispatch({
@@ -116,7 +111,6 @@ const edit = (dispatch) => {
     let tep = new Date(Date.now());
     let temp = new Date(time);
     temp.setSeconds(0, 0);
-    tep.setSeconds(0, 0);
     Cancle_Notif(selecteditem.notificationId);
     let id = notif(text, temp.getTime() / 1000 - tep.getTime() / 1000);
     id.then((value) => {
@@ -163,6 +157,7 @@ const notif = async (text, time) => {
         // isAuthenticationRequired?: boolean,
         opensAppToForeground: false,
       },
+      
     },
   ];
 
@@ -173,22 +168,20 @@ const notif = async (text, time) => {
   return lol;
 };
 
-const Cancle_all_notif = async () => {
-  let lol = await Notifications.cancelAllScheduledNotificationsAsync();
-  console.log("cncled all " + lol);
-};
+// const Cancle_all_notif = async () => {
+//   let lol = await Notifications.cancelAllScheduledNotificationsAsync();
+//   console.log("cncled all " + lol);
+// };
 
-const all_notif = async () => {
-  let lol = await Notifications.getAllScheduledNotificationsAsync();
-  console.log("-----ALL NOTIFICATIONS----");
-  console.log(lol);
-};
+// const all_notif = async () => {
+//   let lol = await Notifications.getAllScheduledNotificationsAsync();
+//   console.log("-----ALL NOTIFICATIONS----");
+//   console.log(lol);
+// };
 
 const Cancle_Notif = async (id) => {
   await Notifications.cancelScheduledNotificationAsync(id)
-    .then(() => {
-      // all_notif();
-    })
+    .then(() => {})
     .catch((e) => {
       console.error(e);
     });
@@ -211,42 +204,3 @@ const getData = async () => {
     console.log(e);
   }
 };
-/*
-const edit_text = (dispatch) => {
-  return ({ selecteditem, text }) => {
-    let tep = new Date(Date.now());
-    let temp = new Date(selecteditem.Date);
-    Cancle_Notif(selecteditem.notificationId);
-    let id = notif(text, temp.getTime() / 1000 - tep.getTime() / 1000);
-    id.then((value) => {
-      dispatch({
-        type: "edit_text",
-        payload: { selecteditem, text, id: value },
-      });
-    }).catch((e) => {
-      console.error(e);
-    });
-  };
-};
-const edit_time = (dispatch) => {
-  // Cancle_all_notif();
-  all_notif();
-  return ({ selecteditem, time }) => {
-    let tep = new Date(Date.now());
-    let temp = new Date(time);
-    Cancle_Notif(selecteditem.notificationId);
-    let id = notif(
-      selecteditem.text,
-      temp.getTime() / 1000 - tep.getTime() / 1000
-    );
-    id.then((value) => {
-      dispatch({
-        type: "edit_time",
-        payload: { selecteditem, time, id: value },
-      });
-    }).catch((e) => {
-      console.error(e);
-    });
-  };
-};
-*/
