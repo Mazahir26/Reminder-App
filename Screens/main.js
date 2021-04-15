@@ -1,15 +1,19 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Reminder_Screen from "./Reminder_Screen";
 import Birthday_Screen from "./Birthday_Screen";
 import Settings_Screen from "./Settings_Screen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
-import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
+import { View } from "react-native";
+import {
+  DefaultTheme,
+  Provider as PaperProvider,
+  ActivityIndicator,
+} from "react-native-paper";
 import { Context as SettingsContext } from "../Context/SettingsContext";
 import { Context as ReminderContext } from "../Context/ReminderDataContext";
 import { Context as BirthdayContext } from "../Context/BirthdayDataContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import * as Notifications from "expo-notifications";
 const lighttheme = {
@@ -47,7 +51,7 @@ function main() {
   const { state, init_data_Settings } = useContext(SettingsContext);
   var currentTheme = state.Theme ? lighttheme : darktheme;
   const { colors } = currentTheme;
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const subscription = Notifications.addNotificationResponseReceivedListener(
       async (response) => {
@@ -56,22 +60,11 @@ function main() {
             response.notification.request.content.categoryIdentifier ==
             "reminder"
           ) {
-            try {
-              let jsonValue = await AsyncStorage.getItem("Settings-Data");
-              jsonValue = jsonValue != null ? JSON.parse(jsonValue) : null;
-              snooze({
-                text: response.notification.request.content.body,
-                val: response.notification.request.identifier,
-                snoozetime: jsonValue != null ? jsonValue.snoozetime : 30,
-              });
-            } catch (e) {
-              console.log(e);
-              snooze({
-                text: response.notification.request.content.body,
-                val: response.notification.request.identifier,
-                snoozetime: 30,
-              });
-            }
+            snooze({
+              text: response.notification.request.content.body,
+              val: response.notification.request.identifier,
+              snoozetime: 30,
+            });
           }
         }
         await Notifications.dismissNotificationAsync(
@@ -86,51 +79,64 @@ function main() {
     init_data();
     init_data_Birthday();
     init_data_Settings();
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
   }, []);
-  return (
-    <PaperProvider theme={currentTheme}>
-      <NavigationContainer>
-        <Tab.Navigator
-          sceneContainerStyle={{ backgroundColor: colors.background }}
-          tabBarOptions={{
-            showLabel: false,
-            activeBackgroundColor: colors.tab,
-            inactiveBackgroundColor: colors.tab,
-            activeTintColor: colors.accent,
-            inactiveTintColor: colors.primary,
-          }}
-        >
-          <Tab.Screen
-            name="Reminder"
-            component={Reminder_Screen}
-            options={{
-              tabBarIcon: ({ size, color }) => (
-                <AntDesign name="clockcircleo" size={size} color={color} />
-              ),
+
+  if (loading) {
+    return (
+      <View
+        style={{ flex: 1, justifyContent: "center", alignContent: "center" }}
+      >
+        <ActivityIndicator color="#7f2ee1" animating={true} size={40} />
+      </View>
+    );
+  } else
+    return (
+      <PaperProvider theme={currentTheme}>
+        <NavigationContainer>
+          <Tab.Navigator
+            sceneContainerStyle={{ backgroundColor: colors.background }}
+            tabBarOptions={{
+              showLabel: false,
+              activeBackgroundColor: colors.tab,
+              inactiveBackgroundColor: colors.tab,
+              activeTintColor: colors.accent,
+              inactiveTintColor: colors.primary,
             }}
-          />
-          <Tab.Screen
-            name="Birthday"
-            component={Birthday_Screen}
-            options={{
-              tabBarIcon: ({ size, color }) => (
-                <AntDesign name="gift" size={size} color={color} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Settings"
-            component={Settings_Screen}
-            options={{
-              tabBarIcon: ({ size, color }) => (
-                <AntDesign name="setting" size={size} color={color} />
-              ),
-            }}
-          />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
-  );
+          >
+            <Tab.Screen
+              name="Reminder"
+              component={Reminder_Screen}
+              options={{
+                tabBarIcon: ({ size, color }) => (
+                  <AntDesign name="clockcircleo" size={size} color={color} />
+                ),
+              }}
+            />
+            <Tab.Screen
+              name="Birthday"
+              component={Birthday_Screen}
+              options={{
+                tabBarIcon: ({ size, color }) => (
+                  <AntDesign name="gift" size={size} color={color} />
+                ),
+              }}
+            />
+            <Tab.Screen
+              name="Settings"
+              component={Settings_Screen}
+              options={{
+                tabBarIcon: ({ size, color }) => (
+                  <AntDesign name="setting" size={size} color={color} />
+                ),
+              }}
+            />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
+    );
 }
 
 export default main;

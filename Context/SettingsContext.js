@@ -14,33 +14,12 @@ const settings_reducer = (state, action) => {
       };
       storeData(data);
       return data;
-    case "toggle_Snoozetime":
-      let tep = 30;
-      if (state.snoozetime == 30) {
-        tep = 45;
-      } else if (state.snoozetime == 45) {
-        tep = 60;
-      } else if (state.snoozetime == 60) {
-        tep = 30;
-      }
-      const data1 = {
-        ...state,
-        snoozetime: tep,
-      };
-      storeData(data1);
-      return data1;
   }
 };
 
 const toggle_darkmode = (dispatch) => {
   return () => {
     dispatch({ type: "toggle_darkmode" });
-  };
-};
-
-const toggle_Snoozetime = (dispatch) => {
-  return () => {
-    dispatch({ type: "toggle_Snoozetime" });
   };
 };
 
@@ -51,7 +30,6 @@ const init_data_Settings = (dispatch) => {
         if (value == null) {
           value = {
             Theme: false,
-            snoozetime: 30,
           };
         }
         dispatch({ type: "init_data", payload: value });
@@ -82,9 +60,8 @@ const getData = async () => {
 
 export const { Context, Provider } = createDataContext(
   settings_reducer,
-  { toggle_darkmode, toggle_Snoozetime, init_data_Settings },
+  { toggle_darkmode, init_data_Settings },
   {
     Theme: false,
-    snoozetime: 30,
   }
 );

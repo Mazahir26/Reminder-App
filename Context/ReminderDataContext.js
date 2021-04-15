@@ -157,7 +157,6 @@ const notif = async (text, time) => {
         // isAuthenticationRequired?: boolean,
         opensAppToForeground: false,
       },
-      
     },
   ];
 

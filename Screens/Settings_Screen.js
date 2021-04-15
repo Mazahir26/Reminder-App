@@ -6,7 +6,7 @@ import { Context } from "../Context/SettingsContext";
 import { useTheme } from "react-native-paper";
 
 function Settings() {
-  const { state, toggle_darkmode, toggle_Snoozetime } = useContext(Context);
+  const { state, toggle_darkmode } = useContext(Context);
   const { colors } = useTheme();
 
   return (
@@ -35,20 +35,6 @@ function Settings() {
               size={40}
               color={colors.text}
             />
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: 15,
-          }}
-        >
-          <Text style={[styles.text, { color: colors.text }]}>Snooze Time</Text>
-          <TouchableOpacity onPress={toggle_Snoozetime}>
-            <Text style={[styles.text, { color: colors.text, fontSize: 20 }]}>
-              {state.snoozetime} mins
-            </Text>
           </TouchableOpacity>
         </View>
       </View>
