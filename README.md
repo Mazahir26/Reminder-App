@@ -36,7 +36,7 @@ it's a simple reminder app made with React-Native and Expo.
 
 ## Testing
 
-- it has been Tested on Andriod 10.0
+- it has been Tested on Android 10.0
 - it uses expo SDK 40
 - if you find any bugs, please raise an issue
 
